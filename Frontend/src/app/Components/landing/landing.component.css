@@ -1,0 +1,30 @@
+.container{
+    flex: 1; 
+    height: calc(100vh - 64px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container h1{
+    font-size: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-style: oblique;
+    color: brown;
+}
+
+
+
+.bounce {
+    animation-name: bounce;
+    animation-duration: 1.2s;
+    animation-iteration-count: infinite;
+}
+
+
+@keyframes bounce {
+    0% {transform: translateY(0);}
+    50% {transform: translateY(-15px);}
+    100% {transform: translateY(0);}
+}

@@ -1,0 +1,18 @@
+<mat-toolbar>
+    <button mat-button routerLink="">
+        <mat-icon>bug_report</mat-icon>
+        <span>Home</span>
+    </button>
+
+    <button mat-button routerLink="Admin">
+        <mat-icon>co_present</mat-icon>
+        <span>Administrador</span>
+    </button>
+
+    <span class="spacer"></span>
+
+    <span style="font-size: 1rem;">Hola, {{ username }}</span>
+    <button mat-icon-button aria-label="Cerrar sesión" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+    </button>
+</mat-toolbar>
