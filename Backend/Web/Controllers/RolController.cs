@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
 using Entity.Context;
 using Entity.DTOs;
-using Entity.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
     public class RolController : ControllerBase
     {
         private readonly AppDbContext _context;

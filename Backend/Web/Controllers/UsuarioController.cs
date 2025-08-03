@@ -1,9 +1,7 @@
-﻿// UsuarioController.cs
-using AutoMapper;
+﻿using AutoMapper;
 using Entity.Context;
 using Entity.DTOs;
 using Entity.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +9,6 @@ namespace Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
     public class UsuarioController : ControllerBase
     {
         private readonly AppDbContext _context;

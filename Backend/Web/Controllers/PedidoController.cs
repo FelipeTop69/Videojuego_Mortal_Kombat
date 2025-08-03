@@ -10,7 +10,6 @@ namespace Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
     public class PedidoController : ControllerBase
     {
         private readonly AppDbContext _context;
