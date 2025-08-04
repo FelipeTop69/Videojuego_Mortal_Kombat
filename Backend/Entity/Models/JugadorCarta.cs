@@ -14,7 +14,7 @@ namespace Entity.Models
 
         public EstadoCartaJugador Estado { get; set; } = new EstadoCartaJugador(); 
 
-        public int? RondaJugado { get; set; } 
+        public int? RondaJugado { get; set; }
     }
 
 }

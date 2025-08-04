@@ -1,4 +1,9 @@
 ﻿using AutoMapper;
+using Entity.DTOs;
+using Entity.DTOs.Juego;
+using Entity.DTOs.Jugador;
+using Entity.DTOs.JugadorCarta;
+using Entity.Models;
 
 namespace Business.AutoMapper
 {
@@ -6,27 +11,26 @@ namespace Business.AutoMapper
     {
         public GeneralMapper()
         {
-            //// Usuario
-            //CreateMap<Usuario, UsuarioDTO>()
-            //    .ForMember(dest => dest.RolNombre, opt => opt.MapFrom(src => src.Rol.Nombre))
-            //    .ReverseMap();
+            // Carta => CartaDTO
+            CreateMap<Carta, CartaDTO>().ReverseMap();
 
-            //// Rol
-            //CreateMap<Rol, RolDTO>().ReverseMap();
+            // Jugador => JugadorDTO
+            CreateMap<Jugador, JugadorDTO>().ReverseMap();
 
-            //// Cliente
-            //CreateMap<Cliente, ClienteDTO>().ReverseMap();
+            // CrearJugadorDTO => Jugador (solo para crear)
+            CreateMap<CrearJugadorDTO, Jugador>();
 
-            //// Pizza
-            //CreateMap<Pizza, PizzaDTO>().ReverseMap();
+            // JugadorCarta => JugadorCartaDTO
+            CreateMap<JugadorCarta, JugadorCartaDTO>()
+                .ForMember(dest => dest.NombreCarta, opt => opt.MapFrom(src => src.Carta.Nombre))
+                .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.Estado.ToString()))
+                .ForMember(dest => dest.RondaJugado, opt => opt.MapFrom(src => src.RondaJugado));
 
-            //// Pedido
-            //CreateMap<Pedido, PedidoDTO>()
-            //    .ForMember(dest => dest.ClienteNombre, opt => opt.MapFrom(src => src.Cliente.Nombre))
-            //    .ForMember(dest => dest.PizzaNombre, opt => opt.MapFrom(src => src.Pizza.Nombre))
-            //    .ReverseMap();
-
-            //CreateMap<PedidoCreateDTO, Pedido>();
+            // CartaJugadaResumenDTO (ya lo vimos antes)
+            CreateMap<JugadorCarta, CartaJugadaResumenDTO>()
+                .ForMember(dest => dest.Jugador, opt => opt.MapFrom(src => src.Jugador.Nombre))
+                .ForMember(dest => dest.CartaNombre, opt => opt.MapFrom(src => src.Carta.Nombre))
+                .ForMember(dest => dest.Valor, opt => opt.Ignore()); 
         }
     }
 }

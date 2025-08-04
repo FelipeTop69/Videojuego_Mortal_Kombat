@@ -10,5 +10,6 @@ namespace Entity.Context
         public DbSet<Jugador> Jugador { get; set; }
         public DbSet<Carta> Carta { get; set; }
         public DbSet<JugadorCarta> JugadorCarta { get; set; }
+        public DbSet<Ronda> Ronda { get; set; }
     }
 }
