@@ -1,0 +1,23 @@
+<div class="dialog-container">
+    <div class="dialog-content">
+        <h2>Registrar Jugador</h2>
+
+        <div class="dialog-text-content">
+            <form (ngSubmit)="onSubmit()" class="register-form">
+                <div class="form-group">
+                    <label for="playerName">Nombre del Jugador:</label>
+                    <input type="text" id="playerName" [(ngModel)]="playerName" name="playerName" required
+                        maxlength="15" placeholder="Máximo 15 caracteres" class="form-input" (input)="validateName()">
+                </div>
+
+                <div class="dialog-actions">
+                    <button type="button" class="close-btn" (click)="onCancel()">Cancelar</button>
+                    <button type="submit" class="close-btn" [disabled]="!isNameValid || isSubmitting">
+                        <span *ngIf="!isSubmitting">Registrar</span>
+                        <span *ngIf="isSubmitting">Registrando...</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

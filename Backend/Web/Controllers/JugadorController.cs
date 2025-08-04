@@ -49,20 +49,24 @@ namespace Web.Controllers
         /// <summary>
         /// Crea un nuevo jugador con nombre único.
         /// </summary>
-        [HttpPost]
+        [HttpPost("registrar")]
         public async Task<ActionResult<JugadorDTO>> CrearJugador(CrearJugadorDTO dto)
         {
             var totalJugadores = await _context.Jugador.CountAsync();
             var nombreNormalizado = dto.Nombre.Trim().ToLower();
 
             if (totalJugadores >= 7)
-                return BadRequest("No se pueden registrar más de 7 jugadores.");
+            {
+                return BadRequest(new { message = "No se pueden registrar más de 7 jugadores." });
+            }
 
             bool nombreRepetido = await _context.Jugador
                 .AnyAsync(j => j.Nombre.ToLower() == nombreNormalizado);
 
             if (nombreRepetido)
-                return BadRequest("El nombre del jugador ya existe.");
+            {
+                return BadRequest(new { message = "El nombre del jugador ya existe." });
+            }
 
             int orden = await _context.Jugador.CountAsync() + 1;
 
@@ -79,6 +83,47 @@ namespace Web.Controllers
 
             var jugadorDTO = _mapper.Map<JugadorDTO>(jugador);
             return CreatedAtAction(nameof(GetJugador), new { id = jugador.Id }, jugadorDTO);
+        }
+
+        /// <summary>
+        /// Obtiene la lista de avatares ya asignados a jugadores.
+        /// </summary>
+        [HttpGet("avatares-usados")]
+        public async Task<ActionResult<IEnumerable<string>>> GetAvataresUsados()
+        {
+            var avatares = await _context.Jugador
+                .Select(j => j.Avatar)
+                .Distinct()
+                .ToListAsync();
+
+            return Ok(avatares);
+        }
+
+        /// <summary>
+        /// Obtiene la lista de avatares disponibles (no asignados).
+        /// </summary>
+        [HttpGet("avatares-disponibles")]
+        public async Task<ActionResult<IEnumerable<string>>> GetAvataresDisponibles()
+        {
+            var avataresUsados = await _context.Jugador
+                .Select(j => j.Avatar)
+                .Distinct()
+                .ToListAsync();
+
+            var todosAvatares = new List<string>
+    {
+                "img/avatares/avatar_1.png",
+                "img/avatares/avatar_2.png",
+                "img/avatares/avatar_3.png",
+                "img/avatares/avatar_4.png",
+                "img/avatares/avatar_5.png",
+                "img/avatares/avatar_6.png",
+                "img/avatares/avatar_7.png"
+            };
+
+            var disponibles = todosAvatares.Except(avataresUsados).ToList();
+
+            return Ok(disponibles);
         }
 
         /// <summary>

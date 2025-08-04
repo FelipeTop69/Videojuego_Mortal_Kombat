@@ -1,0 +1,186 @@
+.dialog-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.dialog-content {
+    background-color: rgba(72, 51, 27, 0.9);
+    border: 0.5rem solid rgb(168, 119, 63);
+    padding: 2rem;
+    border-radius: 30px;
+    width: 80%;
+    max-width: 400px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    position: relative;
+    max-height: 55vh;
+}
+.dialog-content h2{
+    color: white;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.dialog-text-content {
+    padding-right: 8px;
+    text-align: center;
+}
+
+/* Formulario */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    text-align: left;
+}
+
+label {
+    color: #ecf0f1;
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.form-input {
+    padding: 0.6rem;
+    border-radius: 80px;
+    border: 2px solid #fafafa;
+    background-color: #0000008f;
+    font-size: 1.2rem;
+    font-weight: 100;
+    letter-spacing: 1px;
+    color: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #f39c12;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* Botones */
+.close-btn {
+    background: linear-gradient(145deg, #ca8114, #e84118);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(232, 166, 24, 0.4);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    font-size: 0.9rem;
+    min-width: 120px;
+}
+
+.close-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(232, 166, 24, 0.6);
+}
+
+.close-btn:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.close-btn:disabled {
+    background: linear-gradient(145deg, #95a5a6, #7f8c8d);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Efecto de onda al hacer clic */
+.close-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.close-btn:focus:not(:active)::after {
+    animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(20, 20);
+        opacity: 0;
+    }
+}
+
+/* Sombra al hacer scroll */
+.scroll-shadow {
+    box-shadow: inset 0 -10px 10px -10px rgba(0, 0, 0, 0.3);
+}
+
+.form-input.invalid {
+    border-color: #ff6b6b;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+
+/* Estado de carga */
+button[disabled] {
+    position: relative;
+}
+
+button[disabled]::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}

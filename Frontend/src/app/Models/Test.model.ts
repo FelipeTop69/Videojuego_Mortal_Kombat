@@ -1,6 +1,6 @@
 export interface Test{
-    date: string,
-    temperatureC: null,
-    temperatureF: number,
-    summar : string
+  date: string,
+  temperatureC: null,
+  temperatureF: number,
+  summar : string
 }
