@@ -1,6 +1,14 @@
 <div class="register-content">
-    <div class="title">
-        <h1>Registros de Jugadores</h1>
+    <div class="title-container">
+        <!-- Botón de regreso -->
+        <button class="back-button" (click)="goBack()">
+            <img src="img/elementos/btn_volver.png" alt="Volver al inicio">
+        </button>
+
+        <!-- Título existente -->
+        <div class="title">
+            <h1>Registros de Jugadores</h1>
+        </div>
     </div>
 
     <div class="contenedor-principal">
@@ -9,13 +17,11 @@
                 <h1>Jugadores Lobby</h1>
             </div>
             <div class="carta-jugadores-registrados">
-                <div class="jugador-registrado">
-                    <img src="img/elementos/marco_jugador_registrado.png" alt="marco" class="marco-jugador">
-                    <img src="img/avatares/avatar_1.png" alt="avatar_jugador" class="avatar">
-                    <div class="contenedor-nombre">
-                        <h3 class="nombre">Jugador</h3>
-                    </div>
+                <div class="mensaje-vacio" *ngIf="jugadores.length === 0">
+                    <p>No hay jugadores registrados aún.</p>
                 </div>
+                <app-jugador-list *ngFor="let jugador of jugadores" [jugador]="jugador">
+                </app-jugador-list>
             </div>
         </div>
         <div class="contenedor-acciones">

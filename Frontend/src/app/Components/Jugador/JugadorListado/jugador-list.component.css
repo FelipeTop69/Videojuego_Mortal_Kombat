@@ -1,0 +1,44 @@
+.jugador-registrado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 314px;
+    padding: 8px 8px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 32px;
+    border-bottom-right-radius: 34px;
+    border-bottom-left-radius: 26px;
+    position: relative;
+    background-color: hsla(27, 21%, 39%, 0.58);
+}
+
+.marco-jugador {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(calc(-50% - -2px), calc(-50% - -2px));
+    width: 340px;
+    height: 99px;
+    z-index: 1;
+}
+
+.avatar {
+    width: 70px;
+    height: 70px;
+    z-index: 2;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.contenedor-nombre {
+    text-align: center;
+    flex-grow: 1;
+    z-index: 2;
+}
+
+.nombre {
+    margin: 0;
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 400;
+}

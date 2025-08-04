@@ -12,6 +12,34 @@
     position: relative;
 }
 
+.title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    padding-top: 12px;
+}
+
+.back-button {
+    position: absolute;
+    left: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.3s ease;
+}
+
+.back-button:hover {
+    transform: scale(1.1);
+}
+
+.back-button img {
+    width: 40px;
+    height: auto;
+}
+
 .title {
     padding-top: 12px;
 }
@@ -75,51 +103,18 @@
     -ms-overflow-style: none;
 }
 
-.jugador-registrado {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80%;
-    padding: 8px 8px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 32px;
-    border-bottom-right-radius: 34px;
-    border-bottom-left-radius: 26px;
-    position: relative;
-    background-color: hsla(27, 21%, 39%, 0.58);
-}
-
-.marco-jugador {
+.mensaje-vacio {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(calc(-50% - -2px), calc(-50% - -2px));
-    width: 340px;
-    height: 99px;
-    z-index: 1;
-}
-
-.avatar {
-    width: 70px;
-    height: 70px;
-    z-index: 2;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.contenedor-nombre {
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    color: #777;
     text-align: center;
-    flex-grow: 1;
-    z-index: 2;
 }
 
-.nombre {
-    margin: 0;
-    color: white;
-    font-size: 1.6rem;
-    font-weight: 400;
-}
 
+/* ========================================= */
 
 .contenedor-acciones {
     height: 100%;
@@ -169,7 +164,7 @@
     cursor: pointer;
     /* El degradado radial principal */
     background-color: rgba(188, 107, 2, 0.603);
-    color: wheat        ;
+    color: wheat;
 }
 
 .voltage-button button:hover+svg,

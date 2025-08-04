@@ -1,7 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { JugadorCrear } from '../Models/Jugador.model';
 import { GenericService } from './generic.service';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
@@ -9,14 +8,14 @@ import { Observable, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class JugadorService extends GenericService<JugadorCrear, JugadorCrear> {
+export class JugadorService extends GenericService<any> {
   constructor(http: HttpClient) {
-    const baseURL = environment.apiURL + 'api/Jugador/registrar';
+    const baseURL = environment.apiURL + 'api/Jugador/';
     super(http, baseURL);
   }
 
-  override create(item: JugadorCrear): Observable<JugadorCrear> {
-    return this.http.post<JugadorCrear>(this.baseUrl, item).pipe(
+  override create(item: any): Observable<any> {
+    return this.http.post<any>(this.baseUrl + 'registrar', item).pipe(
       catchError(this.handleError)
     );
   }

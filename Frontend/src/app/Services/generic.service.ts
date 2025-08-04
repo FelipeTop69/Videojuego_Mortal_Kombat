@@ -5,31 +5,31 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export abstract class GenericService<TWrite, TRead> {
+export abstract class GenericService<T> {
 
     constructor(
     protected http: HttpClient,
     protected baseUrl: string
   ) { }
 
-  getAll(): Observable<TRead[]> {
-    return this.http.get<TRead[]>(`${this.baseUrl}`);
+  getAll(): Observable<T[]> {
+    return this.http.get<T[]>(`${this.baseUrl}`);
   }
 
-  getById(id: number): Observable<TRead> {
-    return this.http.get<TRead>(`${this.baseUrl}/${id}`);
+  getById(id: number): Observable<T> {
+    return this.http.get<T>(`${this.baseUrl}/${id}`);
   }
 
-  create(item: TWrite): Observable<TWrite> {
-    return this.http.post<TWrite>(`${this.baseUrl}`, item);
+  create(item: T): Observable<T> {
+    return this.http.post<T>(`${this.baseUrl}`, item);
   }
 
-  update(item: TWrite): Observable<TWrite> {
-    return this.http.put<TWrite>(`${this.baseUrl}`, item);
+  update(item: T): Observable<T> {
+    return this.http.put<T>(`${this.baseUrl}`, item);
   }
 
-  deletePersitence(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+  deletePersitence(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
 }
