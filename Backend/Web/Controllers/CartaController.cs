@@ -19,9 +19,6 @@ namespace Web.Controllers
             _mapper = mapper;
         }
 
-        /// <summary>
-        /// Obtiene todas las cartas, opcionalmente solo las disponibles.
-        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CartaDTO>>> GetCartas([FromQuery] bool disponibles = false)
         {
@@ -34,9 +31,6 @@ namespace Web.Controllers
             return Ok(_mapper.Map<List<CartaDTO>>(cartas));
         }
 
-        /// <summary>
-        /// Obtiene una carta específica por ID.
-        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<CartaDTO>> GetCarta(int id)
         {
@@ -47,9 +41,6 @@ namespace Web.Controllers
             return Ok(_mapper.Map<CartaDTO>(carta));
         }
 
-        /// <summary>
-        /// Restaura el estado de disponibilidad de todas las cartas.
-        /// </summary>
         [HttpPut("reset-disponibles")]
         public async Task<IActionResult> ResetDisponibles()
         {

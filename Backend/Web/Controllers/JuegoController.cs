@@ -13,7 +13,6 @@ namespace Web.Controllers
     {
         private readonly AppDbContext _context;
 
-        // Simulación de historial en memoria
         private static readonly List<RondaHistorialDTO> _historial = new();
 
         public JuegoController(AppDbContext context)
@@ -21,7 +20,6 @@ namespace Web.Controllers
             _context = context;
         }
 
-        // POST: /api/juego/seleccionar-habilidad
         [HttpPost("seleccionar-habilidad")]
         public async Task<IActionResult> SeleccionarHabilidad([FromBody] string habilidad)
         {
@@ -44,7 +42,6 @@ namespace Web.Controllers
             return Ok(new { ronda = nuevaRonda.Id, habilidad });
         }   
 
-        // POST: /api/juego/calcular-ganador-ronda
         [HttpPost("calcular-ganador-ronda")]
         public async Task<IActionResult> EvaluarRonda([FromBody] EvaluarRondaDTO dto)
         {
@@ -89,14 +86,12 @@ namespace Web.Controllers
             return Ok(new { ganador = ganador.Nombre });
         }
 
-        // GET: /api/juego/historial
         [HttpGet("historial")]
         public IActionResult ObtenerHistorial()
         {
             return Ok(_historial);
         }
 
-        // DELETE: /api/juego/reiniciar
         [HttpDelete("reiniciar")]
         public async Task<IActionResult> ReiniciarJuego()
         {

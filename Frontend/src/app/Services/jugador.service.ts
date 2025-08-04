@@ -24,10 +24,8 @@ export class JugadorService extends GenericService<any> {
     let errorMessage = 'Ocurrió un error al registrar el jugador';
 
     if (error.error instanceof ErrorEvent) {
-      // Error del lado del cliente
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      // Error del lado del servidor
       if (typeof error.error === 'object' && error.error !== null && 'message' in error.error) {
         errorMessage = (error.error as {message: string}).message;
       } else if (error.status === 400) {

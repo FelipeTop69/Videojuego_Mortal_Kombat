@@ -61,7 +61,6 @@
 .contenedor-jugadores {
     height: 100%;
     flex: 1;
-    /* Ocupa todo el ancho posible restante, distribuyéndolo equitativamente */
     padding-top: 0;
     padding-bottom: 16px;
     padding-left: 16px;

@@ -41,7 +41,6 @@ export class AvataresService {
   }
 
   obtenerAvatarDisponible(): Observable<string | null> {
-    // Primero verificamos los avatares usados localmente
     const disponiblesLocal = this.avataresDisponibles.filter(a => !this.avataresUsados.has(a));
 
     if (disponiblesLocal.length > 0) {
@@ -49,7 +48,6 @@ export class AvataresService {
       return of(disponiblesLocal[indice]);
     }
 
-    // Si no hay locales, consultamos al backend
     return this.http.get<string[]>(`${this.baseUrl}/avatares-disponibles`).pipe(
       map(avatares => {
         if (!avatares || avatares.length === 0) return null;

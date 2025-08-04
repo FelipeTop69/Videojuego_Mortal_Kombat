@@ -5,7 +5,6 @@ using Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// =============== [ SERVICES ] ===============
 builder.Services.AddControllers();
 
 // AutoMapper
@@ -17,7 +16,7 @@ builder.Services.AddSwaggerWithJwtSupport();
 // CORS - Extension
 builder.Services.AddCustomCors(builder.Configuration);
 
-// =============== [ REGISTER DbContext ] ===============
+//DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

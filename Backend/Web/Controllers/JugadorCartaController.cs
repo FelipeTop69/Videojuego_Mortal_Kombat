@@ -21,7 +21,6 @@ namespace Web.Controllers
             _mapper = mapper;
         }
 
-        // GET: /api/jugadorcartas/by-jugador/{jugadorId}
         [HttpGet("by-jugador/{jugadorId}")]
         public async Task<ActionResult<IEnumerable<JugadorCartaDTO>>> GetCartasPorJugador(int jugadorId)
         {
@@ -33,7 +32,6 @@ namespace Web.Controllers
             return Ok(_mapper.Map<List<JugadorCartaDTO>>(cartas));
         }
 
-        // POST: /api/jugadorcartas/asignar-cartas
         [HttpPost("asignar-cartas")]
         public async Task<IActionResult> AsignarCartas()
         {
@@ -72,7 +70,6 @@ namespace Web.Controllers
             return Ok("Cartas asignadas correctamente.");
         }
 
-        // PUT: /api/jugadorcartas/jugar-carta
         [HttpPut("jugar-carta")]
         public async Task<IActionResult> JugarCarta([FromBody] JugarCartaDTO dto)
         {
@@ -91,7 +88,6 @@ namespace Web.Controllers
             return NoContent();
         }
 
-        // DELETE: /api/jugadorcartas/reset
         [HttpDelete("reset")]
         public async Task<IActionResult> ResetJugadorCarta()
         {

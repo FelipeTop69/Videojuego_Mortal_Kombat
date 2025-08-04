@@ -20,9 +20,6 @@ namespace Web.Controllers
             _mapper = mapper;
         }
 
-        /// <summary>
-        /// Retorna la lista de jugadores ordenados por turno.
-        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<JugadorDTO>>> GetJugadores()
         {
@@ -33,9 +30,6 @@ namespace Web.Controllers
             return Ok(_mapper.Map<List<JugadorDTO>>(jugadores));
         }
 
-        /// <summary>
-        /// Retorna los datos de un jugador por su ID.
-        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<JugadorDTO>> GetJugador(int id)
         {
@@ -46,9 +40,6 @@ namespace Web.Controllers
             return Ok(_mapper.Map<JugadorDTO>(jugador));
         }
 
-        /// <summary>
-        /// Crea un nuevo jugador con nombre único.
-        /// </summary>
         [HttpPost("registrar")]
         public async Task<ActionResult<JugadorDTO>> CrearJugador(CrearJugadorDTO dto)
         {
@@ -85,9 +76,6 @@ namespace Web.Controllers
             return CreatedAtAction(nameof(GetJugador), new { id = jugador.Id }, jugadorDTO);
         }
 
-        /// <summary>
-        /// Obtiene la lista de avatares ya asignados a jugadores.
-        /// </summary>
         [HttpGet("avatares-usados")]
         public async Task<ActionResult<IEnumerable<string>>> GetAvataresUsados()
         {
@@ -99,9 +87,6 @@ namespace Web.Controllers
             return Ok(avatares);
         }
 
-        /// <summary>
-        /// Obtiene la lista de avatares disponibles (no asignados).
-        /// </summary>
         [HttpGet("avatares-disponibles")]
         public async Task<ActionResult<IEnumerable<string>>> GetAvataresDisponibles()
         {
@@ -126,9 +111,6 @@ namespace Web.Controllers
             return Ok(disponibles);
         }
 
-        /// <summary>
-        /// Elimina todos los jugadores y sus relaciones.
-        /// </summary>
         [HttpDelete("reset")]
         public async Task<IActionResult> ResetJugadores()
         {
@@ -137,7 +119,6 @@ namespace Web.Controllers
             if (!jugadores.Any())
                 return NoContent();
 
-            // También borra relaciones con cartas si hay navegación configurada
             var jugadorIds = jugadores.Select(j => j.Id).ToList();
 
             var jugadorCartas = await _context.JugadorCarta

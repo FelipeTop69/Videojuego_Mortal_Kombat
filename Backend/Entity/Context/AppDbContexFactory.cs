@@ -8,7 +8,6 @@ namespace Entity.Context
     {
         public AppDbContext CreateDbContext(string[] args)
         {
-            // Configuración para obtener la cadena de conexión desde appsettings.json
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../Web"))
                 .AddJsonFile("appsettings.json")

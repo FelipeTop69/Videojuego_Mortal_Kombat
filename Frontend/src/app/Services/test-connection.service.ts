@@ -7,7 +7,7 @@ import { GenericService } from './generic.service';
 @Injectable({
   providedIn: 'root'
 })
-export class TestConnectionService extends GenericService<Test, Test> {
+export class TestConnectionService extends GenericService<any> {
   constructor(http:HttpClient){
     const baseURL = environment.apiURL + 'WeatherForecast/'
     super(http, baseURL)
