@@ -1,4 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Alkalami&display=swap');
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Aplicar a todos los elementos */
+* {
+    font-family: 'Alkalami', serif;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: 'Alkalami', serif;
+}
+
+/* Para componentes de Material */
+.mat-typography {
+    font-family: 'Alkalami', serif !important;
+}
+
+/* Para diálogos */
+.mat-dialog-container {
+    font-family: 'Alkalami', serif !important;
+}
