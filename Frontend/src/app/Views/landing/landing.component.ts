@@ -14,14 +14,14 @@ export class LandingComponent implements OnInit {
   dataTests: Test[] = [];
 
   ngOnInit(): void {
-    this.testService.getAll().subscribe({
-      next: (data) => {
-        this.dataTests = data;
-        console.log('Data:', this.dataTests);
-      },
-      error: (err) => {
-        console.error('Error al obtener usuarios:', err);
-      }
-    });
+    // this.testService.getAll().subscribe({
+    //   next: (data) => {
+    //     this.dataTests = data;
+    //     console.log('Data:', this.dataTests);
+    //   },
+    //   error: (err) => {
+    //     console.error('Error al obtener usuarios:', err);
+    //   }
+    // });
   }
 }

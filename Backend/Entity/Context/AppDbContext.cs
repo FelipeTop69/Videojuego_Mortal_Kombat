@@ -7,10 +7,8 @@ namespace Entity.Context
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
 
-        public DbSet<Usuario> Usuario { get; set; }
-        public DbSet<Rol> Rol { get; set; }
-        public DbSet<Pizza> Pizza { get; set; }
-        public DbSet<Cliente> Cliente { get; set; }
-        public DbSet<Pedido> Pedido { get; set; }
+        public DbSet<Jugador> Jugador { get; set; }
+        public DbSet<Carta> Carta { get; set; }
+        public DbSet<JugadorCarta> JugadorCarta { get; set; }
     }
 }
