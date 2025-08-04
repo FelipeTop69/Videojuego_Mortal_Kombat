@@ -1,0 +1,51 @@
+<div class="dialog-container">
+    <div class="dialog-content">
+        <div class="notification-badge">
+            <span class="exclamation-icon">!</span>
+        </div>
+        <h2>Información del Juego</h2>
+        <div class="dialog-text-content">
+            <!-- Ejemplo de texto largo -->
+            <p>Este es un juego de cartas donde competirás por habilidades de personaje. Pueden jugar hasta 7 jugadores
+                en la misma pantalla.</p>
+
+            <h3>Reglas del Juego:</h3>
+            <ol>
+                <li>Cada jugador se registra con un nombre único.</li>
+                <br>
+                <li>Al comenzar, se reparten 8 cartas aleatorias a cada jugador.</li>
+                <br>
+                <li>Las cartas tienen habilidades como: Fuerza, Resistencia, Salud, Elemento, Destreza, y Golpe Final.</li>
+                <br>
+                <li>El juego se desarrolla en 8 rondas.</li>
+                <br>
+                <li>
+                    En cada ronda:
+                    <ul>
+                        <li>Se selecciona una habilidad para competir.</li>
+                        <li>Cada jugador juega una carta de su mano.</li>
+                        <li>El jugador con el valor más alto en esa habilidad gana la ronda y obtiene las cartas
+                            jugadas.</li>
+                    </ul>
+                </li>
+                <br>
+                <li>El jugador con más cartas ganadas al final de las 8 rondas es el ganador de la partida.</li>
+            </ol>
+
+            <h3>Nota:</h3>
+            <ul>
+                <li>Cada carta solo se puede jugar una vez</li>
+                <li>No hay empates: todos los valores son únicos.</li>
+                <li>Puedes reiniciar la partida en cualquier momento para comenzar una nueva</li>
+            </ul>
+
+            <p style="text-align: center;">¡Diviértete jugando con tus amigos!</p>
+        </div>
+
+        <button mat-raised-button class="close-btn" (click)="closeDialog()">
+            <span class="btn-content">
+                <i class="icon-close"></i> Cerrar
+            </span>
+        </button>
+    </div>
+</div>

@@ -1,27 +1,29 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Test } from '../../Models/Test.model';
-import { TestConnectionService } from '../../Services/test-connection.service';
+import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { InfoDialogComponent } from '../../Components/Info/info-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
-  imports: [],
   templateUrl: './landing.component.html',
-  styleUrl: './landing.component.css'
+  styleUrls: ['./landing.component.css']
 })
-export class LandingComponent implements OnInit {
-  testService = inject(TestConnectionService);
+export class LandingComponent {
+  constructor(
+    public dialog: MatDialog,
+    private router: Router
+  ) { }
 
-  dataTests: Test[] = [];
+  openInfo(): void {
+    this.dialog.open(InfoDialogComponent, {
+      width: '90%',
+      maxWidth: '500px',
+      disableClose: false,
+      panelClass: 'custom-dialog-container'
+    });
+  }
 
-  ngOnInit(): void {
-    // this.testService.getAll().subscribe({
-    //   next: (data) => {
-    //     this.dataTests = data;
-    //     console.log('Data:', this.dataTests);
-    //   },
-    //   error: (err) => {
-    //     console.error('Error al obtener usuarios:', err);
-    //   }
-    // });
+  startGame(): void {
+    this.router.navigate(['/registro']);
   }
 }
