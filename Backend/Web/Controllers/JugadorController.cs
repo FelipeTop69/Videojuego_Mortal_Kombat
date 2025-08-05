@@ -43,37 +43,64 @@ namespace Web.Controllers
         [HttpPost("registrar")]
         public async Task<ActionResult<JugadorDTO>> CrearJugador(CrearJugadorDTO dto)
         {
-            var totalJugadores = await _context.Jugador.CountAsync();
-            var nombreNormalizado = dto.Nombre.Trim().ToLower();
+            // 1. Validaciones iniciales
+            if (string.IsNullOrWhiteSpace(dto?.Nombre))
+                return BadRequest(new { message = "El nombre no puede estar vacío." });
 
-            if (totalJugadores >= 7)
+            dto.Nombre = dto.Nombre.Trim();
+            if (dto.Nombre.Length < 3 || dto.Nombre.Length > 15)
+                return BadRequest(new { message = "El nombre debe tener entre 3 y 15 caracteres." });
+
+            // 2. Iniciar transacción
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
+            try
             {
-                return BadRequest(new { message = "No se pueden registrar más de 7 jugadores." });
+                // 3. Validar límite de jugadores (DENTRO de la transacción)
+                var totalJugadores = await _context.Jugador.CountAsync();
+                if (totalJugadores >= 7)
+                {
+                    await transaction.RollbackAsync();
+                    return BadRequest(new { message = "No se pueden registrar más de 7 jugadores." });
+                }
+
+                // 4. Validar nombre único (case-insensitive)
+                var nombreNormalizado = dto.Nombre.ToLower();
+                bool nombreRepetido = await _context.Jugador
+                    .AnyAsync(j => j.Nombre.ToLower() == nombreNormalizado);
+
+                if (nombreRepetido)
+                {
+                    await transaction.RollbackAsync();
+                    return BadRequest(new { message = "El nombre ya está en uso." });
+                }
+
+                // 6. Crear jugador
+                var jugador = new Jugador
+                {
+                    Nombre = dto.Nombre,
+                    OrdenTurno = totalJugadores + 1,
+                    Avatar = dto.Avatar,
+                    CantidadCartasGanadas = 0,
+                    Active = true // ¡Asegurar que esté activo!
+                };
+
+                _context.Jugador.Add(jugador);
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return CreatedAtAction(
+                    nameof(GetJugador),
+                    new { id = jugador.Id },
+                    _mapper.Map<JugadorDTO>(jugador)
+                );
             }
-
-            bool nombreRepetido = await _context.Jugador
-                .AnyAsync(j => j.Nombre.ToLower() == nombreNormalizado);
-
-            if (nombreRepetido)
+            catch (Exception ex)
             {
-                return BadRequest(new { message = "El nombre del jugador ya existe." });
+                await transaction.RollbackAsync();
+                Console.WriteLine($"Error al registrar jugador: {ex}");
+                return StatusCode(500, new { message = "Error interno al registrar jugador." });
             }
-
-            int orden = await _context.Jugador.CountAsync() + 1;
-
-            var jugador = new Jugador
-            {
-                Nombre = dto.Nombre.Trim(),
-                OrdenTurno = orden,
-                Avatar = dto.Avatar,
-                CantidadCartasGanadas = 0
-            };
-
-            _context.Jugador.Add(jugador);
-            await _context.SaveChangesAsync();
-
-            var jugadorDTO = _mapper.Map<JugadorDTO>(jugador);
-            return CreatedAtAction(nameof(GetJugador), new { id = jugador.Id }, jugadorDTO);
         }
 
         [HttpGet("avatares-usados")]

@@ -71,6 +71,9 @@ namespace Entity.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Avatar")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -117,6 +120,23 @@ namespace Entity.Migrations
                     b.HasIndex("JugadorId");
 
                     b.ToTable("JugadorCarta");
+                });
+
+            modelBuilder.Entity("Entity.Models.Ronda", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Habilidad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ronda");
                 });
 
             modelBuilder.Entity("Entity.Models.JugadorCarta", b =>

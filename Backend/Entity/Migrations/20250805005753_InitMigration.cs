@@ -38,12 +38,27 @@ namespace Entity.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Avatar = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrdenTurno = table.Column<int>(type: "int", nullable: false),
-                    CantidadCartasGanadas = table.Column<int>(type: "int", nullable: false)
+                    CantidadCartasGanadas = table.Column<int>(type: "int", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Jugador", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ronda",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Habilidad = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ronda", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,6 +105,9 @@ namespace Entity.Migrations
         {
             migrationBuilder.DropTable(
                 name: "JugadorCarta");
+
+            migrationBuilder.DropTable(
+                name: "Ronda");
 
             migrationBuilder.DropTable(
                 name: "Carta");

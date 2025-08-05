@@ -6,6 +6,8 @@ import { JugadorListComponent } from "../../Components/Jugador/JugadorListado/ju
 import { CommonModule } from '@angular/common';
 import { JugadorService } from '../../Services/jugador.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { JugadorCartaService } from '../../Services/jugador-carta.service';
 
 @Component({
   selector: 'app-registro-jugadores',
@@ -13,8 +15,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./registro-jugadores.component.css'],
   imports: [JugadorListComponent, CommonModule]
 })
-export class RegistroJugadoresComponent implements OnInit{
-  jugadores : JugadorListado[] = [];
+export class RegistroJugadoresComponent implements OnInit {
+  jugadores: JugadorListado[] = [];
 
   constructor(
     private dialog: MatDialog,
@@ -22,6 +24,7 @@ export class RegistroJugadoresComponent implements OnInit{
 
   private router = inject(Router)
   private jugadorService = inject(JugadorService)
+  private jugadorCartaService = inject(JugadorCartaService)
 
   ngOnInit(): void {
     this.obtenerJugadores();
@@ -45,10 +48,30 @@ export class RegistroJugadoresComponent implements OnInit{
     });
   }
 
-
   obtenerJugadores(): void {
     this.jugadorService.getAll().subscribe(jugadores => {
       this.jugadores = jugadores;
+    });
+  }
+
+  iniciarPartida(): void {
+    if (this.jugadores.length < 2) {
+      Swal.fire('Atención', 'Se necesitan al menos 2 jugadores para iniciar la partida.', 'warning');
+      return;
+    }
+    // Llama al servicio para asignar las cartas
+    this.jugadorCartaService.asignarCartas().subscribe({
+      next: () => {
+        Swal.fire('¡Listo!', 'Las cartas fueron asignadas correctamente. ¡Comienza el juego!', 'success')
+          .then(() => {
+            // Una vez asignadas las cartas, redirige a la vista de Juego.
+            // Ejemplo: this.router.navigate(['/juego']);
+            console.log('Redirige a la vista de Juego.');
+          });
+      },
+      error: err => {
+        Swal.fire('Error', err.error || 'No se pudo iniciar la partida', 'error');
+      }
     });
   }
 }

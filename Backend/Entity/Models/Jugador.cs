@@ -10,6 +10,7 @@ namespace Entity.Models
         public string Avatar { get; set; } = string.Empty;
         public int OrdenTurno { get; set; }
         public int CantidadCartasGanadas { get; set; } = 0;
+        public bool Active { get; set; } = true; 
 
         public ICollection<JugadorCarta> Cartas { get; set; } = [];
     }

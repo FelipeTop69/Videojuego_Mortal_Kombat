@@ -32,7 +32,7 @@ namespace Web.Controllers
             return Ok(_mapper.Map<List<JugadorCartaDTO>>(cartas));
         }
 
-        [HttpPost("asignar-cartas")]
+        [HttpPost("asignar-cartasss")]
         public async Task<IActionResult> AsignarCartas()
         {
             var yaAsignadas = await _context.JugadorCarta.AnyAsync();
@@ -40,35 +40,56 @@ namespace Web.Controllers
                 return BadRequest("Ya se asignaron cartas. Reinicia el juego para volver a asignar.");
 
             var jugadores = await _context.Jugador.ToListAsync();
-            var cartasDisponibles = await _context.Carta.Where(c => c.Disponible).ToListAsync();
+            var cartasDisponibles = await _context.Carta
+                .Where(c => c.Disponible)
+                .Select(c => new { c.Id }) // solo proyectamos Id para evitar tracking innecesario
+                .ToListAsync();
 
             if (cartasDisponibles.Count < jugadores.Count * 8)
                 return BadRequest("No hay suficientes cartas disponibles.");
 
             var jugadorCartas = new List<JugadorCarta>();
+            var cartasAsignadas = new List<int>();
 
             foreach (var jugador in jugadores)
             {
-                var cartasJugador = cartasDisponibles.OrderBy(_ => Guid.NewGuid()).Take(8).ToList();
-                cartasDisponibles.RemoveAll(c => cartasJugador.Contains(c));
+                var cartasJugador = cartasDisponibles
+                    .Where(c => !cartasAsignadas.Contains(c.Id))
+                    .OrderBy(_ => Guid.NewGuid())
+                    .Take(8)
+                    .ToList();
+
+                if (cartasJugador.Count < 8)
+                    return BadRequest($"No se pudieron asignar 8 cartas al jugador {jugador.Nombre}.");
 
                 foreach (var carta in cartasJugador)
                 {
-                    carta.Disponible = false;
                     jugadorCartas.Add(new JugadorCarta
                     {
                         JugadorId = jugador.Id,
                         CartaId = carta.Id,
                         Estado = EstadoCartaJugador.EnMano
                     });
+
+                    cartasAsignadas.Add(carta.Id);
                 }
             }
 
+            // Marcar cartas como no disponibles sin traerlas de nuevo
+            var cartasAActualizar = await _context.Carta
+                .Where(c => cartasAsignadas.Contains(c.Id))
+                .ToListAsync();
+
+            foreach (var carta in cartasAActualizar)
+                carta.Disponible = false;
+
+            // Guardar cambios
             _context.JugadorCarta.AddRange(jugadorCartas);
             await _context.SaveChangesAsync();
 
             return Ok("Cartas asignadas correctamente.");
         }
+
 
         [HttpPut("jugar-carta")]
         public async Task<IActionResult> JugarCarta([FromBody] JugarCartaDTO dto)
