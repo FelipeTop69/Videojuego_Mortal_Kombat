@@ -1,0 +1,48 @@
+/* El contenedor padre que define la grilla */
+.game-content {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 20fr 65fr 20fr;
+    grid-template-rows: 35fr 65fr;
+}
+
+.contendor_01 {
+    grid-area: 1 / 2 / span 1 / span 1;
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px
+}
+
+.contendor_02 {
+    grid-area: 2 / 2 / span 1 / span 1;
+    border: 1px solid green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor_03 {
+    grid-area: 1 / 1 / span 2 / span 1;
+    border: 1px solid yellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.contenedor_03 h1 {
+    font-size: 3rem;
+    color: rgb(254, 159, 0);
+    margin: 0;
+}
+
+.contenedor_03 img {
+    width: 250px;
+}
+
+.contenedor_04 {
+    grid-area: 1 / 3 / span 2 / span 1;
+    border: 1px solid rgb(255, 255, 255);
+}

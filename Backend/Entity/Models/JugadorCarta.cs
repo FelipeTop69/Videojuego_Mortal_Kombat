@@ -12,10 +12,9 @@ namespace Entity.Models
         public int CartaId { get; set; }
         public Carta Carta { get; set; }     // ← ¡NO inicializar!
 
-        public EstadoCartaJugador Estado { get; set; } = EstadoCartaJugador.EnMano;
+        public bool Active { get; set; } = true; 
 
+        public EstadoCartaJugador Estado { get; set; } = EstadoCartaJugador.EnMano;
         public int? RondaJugado { get; set; }
     }
-
-
 }

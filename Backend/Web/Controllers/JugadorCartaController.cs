@@ -32,7 +32,8 @@ namespace Web.Controllers
             return Ok(_mapper.Map<List<JugadorCartaDTO>>(cartas));
         }
 
-        [HttpPost("asignar-cartasss")]
+        // EN USO
+        [HttpPost("asignar-cartas")]
         public async Task<IActionResult> AsignarCartas()
         {
             var yaAsignadas = await _context.JugadorCarta.AnyAsync();
@@ -68,7 +69,8 @@ namespace Web.Controllers
                     {
                         JugadorId = jugador.Id,
                         CartaId = carta.Id,
-                        Estado = EstadoCartaJugador.EnMano
+                        Estado = EstadoCartaJugador.EnMano,
+                        Active = true
                     });
 
                     cartasAsignadas.Add(carta.Id);
@@ -90,6 +92,23 @@ namespace Web.Controllers
             return Ok("Cartas asignadas correctamente.");
         }
 
+        [HttpGet("jugadores-con-cartas-activas")]
+        public async Task<IActionResult> GetJugadoresConCartasActivas()
+        {
+            var jugadoresConCartas = await _context.Jugador
+                .Where(j => j.Active) // Solo jugadores activos
+                .Select(j => new
+                {
+                    Id = j.Id,
+                    Nombre = j.Nombre,
+                    Avatar = j.Avatar,
+                    CartasActivas = j.Cartas.Count(c => c.Active) // Contar cartas activas
+                })
+                .OrderBy(j => j.Id)
+                .ToListAsync();
+
+            return Ok(jugadoresConCartas);
+        }
 
         [HttpPut("jugar-carta")]
         public async Task<IActionResult> JugarCarta([FromBody] JugarCartaDTO dto)

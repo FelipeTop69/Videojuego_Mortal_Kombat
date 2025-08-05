@@ -1,0 +1,9 @@
+<div class="jugador-juego">
+    <div class="jj-img">
+        <!-- Usa binding de propiedad para mejor performance -->
+        <img [src]="jugador.avatar" [alt]="jugador.nombre" class="jj-img-avatar">
+        <div class="contador">{{ jugador.cartasActivas }}</div>
+    </div>
+    <h3 class="jj-nombre">{{ jugador.nombre }}</h3>
+    <div class="jj-turno"></div>
+</div>

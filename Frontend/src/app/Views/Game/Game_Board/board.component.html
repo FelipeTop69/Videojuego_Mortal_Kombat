@@ -1,1 +1,22 @@
-<p>board works!</p>
+<div class="game-content">
+    <div class="contendor_01">
+        <!-- Este Sera el contenedor 01 -->
+        <app-jugador-carta *ngFor="let jugador of jugadores" [jugador]="jugador">
+        </app-jugador-carta>
+    </div>
+    <div class="contendor_02">
+        <div *ngIf="mostrarSelectorHabilidad">
+            <app-habilidad-selector (habilidadConfirmada)="avanzarAFaseDeSeleccion()"></app-habilidad-selector>
+        </div>
+    </div>
+    <div class="contenedor_03">
+        <h1>Combate</h1>
+        <img src="img/elementos/ilustracion_combate.png" alt="">
+    </div>
+    <div class="contenedor_04">
+        <div *ngIf="mostrarSelectorCarta" class="p-4 bg-yellow-100 rounded shadow">
+            <h2 class="text-xl font-bold mb-2">Esperando que los jugadores jueguen sus cartas...</h2>
+            <p>La habilidad seleccionada ya fue elegida. Pronto aparecerá aquí el jugador en turno y sus cartas.</p>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -54,7 +55,10 @@ namespace Entity.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Habilidad = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Numero = table.Column<int>(type: "int", nullable: false),
+                    HabilidadSeleccionada = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JugadorQueSeleccionaHabilidadId = table.Column<int>(type: "int", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,6 +73,7 @@ namespace Entity.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     JugadorId = table.Column<int>(type: "int", nullable: false),
                     CartaId = table.Column<int>(type: "int", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
                     Estado = table.Column<int>(type: "int", nullable: false),
                     RondaJugado = table.Column<int>(type: "int", nullable: true)
                 },

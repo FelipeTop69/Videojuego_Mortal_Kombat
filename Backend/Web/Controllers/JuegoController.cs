@@ -20,6 +20,56 @@ namespace Web.Controllers
             _context = context;
         }
 
+        [HttpPost("iniciar-ronda")]
+        public async Task<ActionResult<RondaInicioDTO>> IniciarPrimeraRonda()
+        {
+            var jugadores = await _context.Jugador.ToListAsync();
+            if (!jugadores.Any())
+                return BadRequest("No hay jugadores registrados");
+
+            bool rondaExiste = await _context.Ronda.AnyAsync(r => r.Numero == 1);
+            if (rondaExiste)
+                return BadRequest("La primera ronda ya ha sido iniciada");
+
+            var jugadorAleatorio = jugadores.OrderBy(_ => Guid.NewGuid()).First();
+
+            var habilidades = new[] { "Fuerza", "Resistencia", "Salud", "Elemento", "Destreza" };
+            var habilidadElegida = habilidades.OrderBy(_ => Guid.NewGuid()).First();
+
+            var ronda = new Ronda
+            {
+                Numero = 1,
+                HabilidadSeleccionada = habilidadElegida,
+                JugadorQueSeleccionaHabilidadId = jugadorAleatorio.Id,
+                Fecha = DateTime.Now
+            };
+
+            _context.Ronda.Add(ronda);
+            await _context.SaveChangesAsync();
+
+            // Guardar también en historial en memoria
+            var historialItem = new RondaHistorialDTO
+            {
+                NumeroRonda = 1,
+                HabilidadSeleccionada = habilidadElegida,
+                JugadorQueEligio = jugadorAleatorio.Nombre,
+                CartasJugadas = new List<string>() // o new List<CartaJugadaDTO>() si usas la opción B
+            };
+
+            JuegoHistorial.EnRonda.Add(historialItem);
+
+            var dto = new RondaInicioDTO
+            {
+                NumeroRonda = 1,
+                Habilidad = habilidadElegida,
+                JugadorQueEmpieza = jugadorAleatorio.Nombre
+            };
+
+            return Ok(dto);
+        }
+
+
+
         [HttpPost("seleccionar-habilidad")]
         public async Task<IActionResult> SeleccionarHabilidad([FromBody] string habilidad)
         {
@@ -33,7 +83,7 @@ namespace Web.Controllers
 
             var nuevaRonda = new Ronda
             {
-                Habilidad = habilidad
+                HabilidadSeleccionada = habilidad
             };
 
             _context.Ronda.Add(nuevaRonda);
@@ -45,7 +95,7 @@ namespace Web.Controllers
         [HttpPost("calcular-ganador-ronda")]
         public async Task<IActionResult> EvaluarRonda([FromBody] EvaluarRondaDTO dto)
         {
-            if (_historial.Any(h => h.Ronda == dto.Ronda))
+            if (_historial.Any(h => h.NumeroRonda == dto.Ronda))
                 return BadRequest("Esta ronda ya fue evaluada.");
 
             var cartasJugadas = await _context.JugadorCarta
@@ -76,8 +126,8 @@ namespace Web.Controllers
 
             _historial.Add(new RondaHistorialDTO
             {
-                Ronda = dto.Ronda,
-                Habilidad = dto.Habilidad,
+                NumeroRonda = dto.Ronda,
+                HabilidadSeleccionada = dto.Habilidad,
                 GanadorNombre = ganador.Nombre,
                 CartasJugadas = cartasJugadas.Select(j => j.Carta.Nombre).ToList()
             });

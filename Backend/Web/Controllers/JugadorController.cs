@@ -40,6 +40,7 @@ namespace Web.Controllers
             return Ok(_mapper.Map<JugadorDTO>(jugador));
         }
 
+        //EN USO
         [HttpPost("registrar")]
         public async Task<ActionResult<JugadorDTO>> CrearJugador(CrearJugadorDTO dto)
         {

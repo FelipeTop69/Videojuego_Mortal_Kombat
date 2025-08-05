@@ -8,6 +8,7 @@ import { JugadorService } from '../../Services/jugador.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { JugadorCartaService } from '../../Services/jugador-carta.service';
+import { JuegoService } from '../../Services/juego.service';
 
 @Component({
   selector: 'app-registro-jugadores',
@@ -25,6 +26,7 @@ export class RegistroJugadoresComponent implements OnInit {
   private router = inject(Router)
   private jugadorService = inject(JugadorService)
   private jugadorCartaService = inject(JugadorCartaService)
+  private juegoService = inject(JuegoService)
 
   ngOnInit(): void {
     this.obtenerJugadores();
@@ -59,18 +61,23 @@ export class RegistroJugadoresComponent implements OnInit {
       Swal.fire('Atención', 'Se necesitan al menos 2 jugadores para iniciar la partida.', 'warning');
       return;
     }
-    // Llama al servicio para asignar las cartas
+
     this.jugadorCartaService.asignarCartas().subscribe({
       next: () => {
-        Swal.fire('¡Listo!', 'Las cartas fueron asignadas correctamente. ¡Comienza el juego!', 'success')
-          .then(() => {
-            // Una vez asignadas las cartas, redirige a la vista de Juego.
-            // Ejemplo: this.router.navigate(['/juego']);
-            console.log('Redirige a la vista de Juego.');
-          });
+        this.juegoService.iniciarRonda().subscribe({
+          next: (ronda) => {
+            console.log('Ronda iniciada correctamente:', ronda);
+            // Redirige al componente principal del juego
+            this.router.navigate(['/juego']);
+          },
+          error: (error) => {
+            console.error('Error al iniciar la ronda', error);
+            alert('No se pudo iniciar la ronda. Asegúrate de haber registrado al menos dos jugadores.');
+          }
+        });
       },
-      error: err => {
-        Swal.fire('Error', err.error || 'No se pudo iniciar la partida', 'error');
+      error: (err) => {
+        Swal.fire('Error', err.message, 'error');
       }
     });
   }

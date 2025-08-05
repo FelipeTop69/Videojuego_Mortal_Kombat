@@ -1,29 +1,32 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { GenericService } from './generic.service';
-import { catchError, Observable, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
+import { JugadorConCartas } from '../Models/JugadorCarta.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class JugadorCartaService extends GenericService<any> {
+export class JugadorCartaService {
+  private baseUrl = environment.apiURL + 'api/JugadorCarta/';
 
-  constructor(http: HttpClient) {
-    const baseURL = environment.apiURL + 'api/JugadorCarta/';
-    super(http, baseURL);
-  }
-  asignarCartas(): Observable<{ message: string, totalAsignadas: number }> {
-    return this.http.post<{ message: string, totalAsignadas: number }>(
+  constructor(private http: HttpClient) {}
+
+  asignarCartas(): Observable<string> {
+    return this.http.post(
       `${this.baseUrl}asignar-cartas`,
-      {}
+      {},
+      { responseType: 'text' }
     ).pipe(
       catchError(error => {
-        // Manejo centralizado de errores
-        let errorMsg = 'Error al asignar cartas';
-        if (error.error?.message) errorMsg = error.error.message;
+        const errorMsg = error.error?.message || error.message || 'Error al asignar cartas';
         return throwError(() => new Error(errorMsg));
       })
     );
+  }
+
+  getJugadoresConCartasActivas(): Observable<JugadorConCartas[]> {
+    return this.http.get<JugadorConCartas[]>(`${this.baseUrl}jugadores-con-cartas-activas`);
   }
 }
